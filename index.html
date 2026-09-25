@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dinner plan, 27 Sep – 3 Oct</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#2E7456">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Dinners">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F3F6F5; --surface:#FFFFFF; --ink:#1C272B; --muted:#5B6B6E; --line:#D3DDD9;
+  --herb:#2E7456; --herb-soft:#E1EFE8; --saffron:#B7800A; --saffron-soft:#FBF0D6;
+  --frost:#2F6390; --frost-soft:#E2ECF5; --fresh:#2E7456;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#11181A; --surface:#192326; --ink:#E4ECEA; --muted:#98A8A9; --line:#2C3A3D;
+    --herb:#6CC79E; --herb-soft:#1E332A; --saffron:#EDB94A; --saffron-soft:#3A2F14;
+    --frost:#8CB9E0; --frost-soft:#1C2C3A;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#11181A; --surface:#192326; --ink:#E4ECEA; --muted:#98A8A9; --line:#2C3A3D;
+  --herb:#6CC79E; --herb-soft:#1E332A; --saffron:#EDB94A; --saffron-soft:#3A2F14;
+  --frost:#8CB9E0; --frost-soft:#1C2C3A;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px)}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:16px;line-height:1.5;-webkit-text-size-adjust:100%}
+h1,h2,h3{font-family:"Bricolage Grotesque","Atkinson Hyperlegible",system-ui,sans-serif;line-height:1.15;margin:0}
+.wrap{max-width:720px;margin:0 auto;padding:0 18px 48px}
+
+header.top{padding:28px 0 18px}
+header.top h1{font-size:clamp(30px,8vw,44px);font-weight:700;letter-spacing:-0.02em}
+header.top p{margin:8px 0 0;color:var(--muted);max-width:60ch}
+
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);
+  display:flex;gap:6px;padding:10px 0;border-bottom:1px solid var(--line)}
+nav.tabs button{flex:1;font:inherit;font-weight:700;padding:10px 8px;border-radius:10px;
+  border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+nav.tabs button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+button:focus-visible,summary:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--saffron);outline-offset:2px}
+
+section[hidden]{display:none}
+.panel{padding-top:20px}
+.note{background:var(--saffron-soft);border-radius:12px;padding:12px 14px;margin-bottom:18px;font-size:15px}
+
+/* Week: a vertical timeline, the spine of the app */
+.days{list-style:none;margin:0;padding:0;position:relative}
+.days::before{content:"";position:absolute;left:27px;top:8px;bottom:8px;width:2px;background:var(--line)}
+.day{display:grid;grid-template-columns:56px 1fr;gap:12px;padding:10px 0;position:relative}
+.date{text-align:center;padding-top:4px;position:relative;z-index:1}
+.date .dow{display:block;font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:15px}
+.date .num{display:grid;place-items:center;width:40px;height:40px;margin:2px auto 0;border-radius:50%;
+  background:var(--surface);border:2px solid var(--line);font-weight:700;font-size:17px}
+.day.today .num{background:var(--herb);border-color:var(--herb);color:var(--bg)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.day.today .card{border-color:var(--herb);border-width:2px}
+.card h3{font-size:19px;font-weight:700;margin-bottom:6px}
+.plate{margin:0 0 10px;color:var(--muted);font-size:15px}
+.meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:10px}
+.pill{font-size:13px;font-weight:700;padding:3px 10px;border-radius:999px}
+.pill.fridge{background:var(--herb-soft);color:var(--herb)}
+.pill.freezer{background:var(--frost-soft);color:var(--frost)}
+.pill.fresh{background:var(--saffron-soft);color:var(--saffron)}
+.pill.plain{background:transparent;border:1px solid var(--line);color:var(--muted);font-weight:400}
+.links{display:flex;flex-wrap:wrap;gap:6px}
+.links button{font:inherit;font-size:14px;padding:5px 10px;border-radius:8px;border:1px solid var(--line);
+  background:transparent;color:var(--ink);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.tonight{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);font-size:15px}
+.tonight strong{color:var(--frost)}
+
+/* Recipes */
+details.recipe{background:var(--surface);border:1px solid var(--line);border-radius:14px;margin-bottom:10px}
+details.recipe[open]{border-color:var(--ink)}
+details.recipe summary{list-style:none;cursor:pointer;padding:14px 16px;display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+details.recipe summary::-webkit-details-marker{display:none}
+details.recipe summary h3{font-size:18px}
+details.recipe summary span{color:var(--muted);font-size:14px;white-space:nowrap}
+.rbody{padding:0 16px 16px}
+.rbody h4{font-family:"Bricolage Grotesque",sans-serif;font-size:15px;margin:14px 0 6px}
+.rbody ul,.rbody ol{margin:0;padding-left:22px}
+.rbody li{margin:4px 0}
+.rbody .use{background:var(--herb-soft);border-radius:10px;padding:10px 12px;margin-top:12px;font-size:15px}
+.group-title{font-size:22px;margin:26px 0 10px}
+.group-title:first-child{margin-top:0}
+
+/* Shopping */
+.shop-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:6px}
+.progress{color:var(--muted);font-size:15px}
+.ghost{font:inherit;font-size:14px;padding:6px 12px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.shop-group h2{font-size:19px;margin:22px 0 6px}
+.shop-group p.sub{margin:-2px 0 8px;color:var(--muted);font-size:14px}
+.items{list-style:none;margin:0;padding:0;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.items li+li{border-top:1px solid var(--line)}
+.items label{display:flex;gap:12px;align-items:center;padding:12px 14px;cursor:pointer}
+.items input{width:22px;height:22px;accent-color:var(--herb);flex:none}
+.items .qty{margin-left:auto;color:var(--muted);font-size:14px;text-align:right}
+.items li.done .name{text-decoration:line-through;color:var(--muted)}
+
+@media (max-width:420px){
+  .wrap{padding:0 12px 40px}
+  .day{grid-template-columns:46px 1fr;gap:8px}
+  .days::before{left:22px}
+  .date .num{width:36px;height:36px;font-size:15px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .items li.done .name{transition:color .2s}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>Dinners, 27 Sep to 3 Oct</h1>
+    <p>One cooked dinner a day, batch-cooked on Sunday. Bridge stays as usual. Half-carb plates by default, full on strength days.</p>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Sections">
+    <button role="tab" id="t-week" aria-controls="p-week" aria-selected="true">Week</button>
+    <button role="tab" id="t-recipes" aria-controls="p-recipes" aria-selected="false">Recipes</button>
+    <button role="tab" id="t-shop" aria-controls="p-shop" aria-selected="false">Shopping</button>
+  </nav>
+
+  <section id="p-week" class="panel" role="tabpanel" aria-labelledby="t-week">
+    <div class="note" id="weekNote"></div>
+    <ol class="days" id="days"></ol>
+  </section>
+
+  <section id="p-recipes" class="panel" role="tabpanel" aria-labelledby="t-recipes" hidden>
+    <div id="recipes"></div>
+  </section>
+
+  <section id="p-shop" class="panel" role="tabpanel" aria-labelledby="t-shop" hidden>
+    <div class="shop-head">
+      <span class="progress" id="progress"></span>
+      <button class="ghost" id="clearTicks" type="button">Clear ticks</button>
+    </div>
+    <div id="shop"></div>
+  </section>
+</div>
+
+<script>
+const DAYS = [
+  {date:"2026-09-27", dow:"Sun", title:"Lamb kofta with rice and roast veg",
+   plate:"Kofta (half the batch), half-carb rice, roast veg, 1 tbsp tahini-lemon.",
+   src:"fresh", srcLabel:"Cook day", code:"beef/lamb", protein:70,
+   recipes:["batch","kofta","rice","roastveg","tahini"],
+   tonight:"Batch cook today. Freeze Thu kofta, Thu–Fri rice and Fri chicken before bed."},
+  {date:"2026-09-28", dow:"Mon", title:"Paprika chicken, rice, roast veg",
+   plate:"280 g cooked chicken, half-carb rice, roast veg, chimichurri.",
+   src:"fridge", srcLabel:"Fridge", code:"chicken", protein:70,
+   recipes:["chicken","rice","roastveg","chimi"],
+   bridge:"Chicken Bridge option: 150 g from the batch."},
+  {date:"2026-09-29", dow:"Tue", title:"Spiced beef mince, baked potato, green beans",
+   plate:"One beef portion, half a baked potato, steamed green beans.",
+   src:"fridge", srcLabel:"Fridge", code:"beef/lamb", protein:70,
+   recipes:["beef","potato","greenbeans"],
+   bridge:"Last day for the Bridge chicken."},
+  {date:"2026-09-30", dow:"Wed", title:"Salmon, quinoa, spinach and salad",
+   plate:"320 g salmon, half-carb quinoa, wilted spinach, cucumber and tomato salad.",
+   src:"fresh", srcLabel:"Fresh, 15 min", code:"salmon", protein:65,
+   recipes:["salmon"],
+   tonight:"Move Thursday's kofta and rice from freezer to fridge."},
+  {date:"2026-10-01", dow:"Thu", title:"Lamb kofta, rice, carrots and green beans",
+   plate:"Kofta from freezer, half-carb rice, steamed carrots and green beans, tahini-lemon.",
+   src:"freezer", srcLabel:"Freezer", code:"beef/lamb", protein:70,
+   recipes:["kofta","rice","greenbeans","tahini"],
+   tonight:"Move Friday's chicken and rice from freezer to fridge."},
+  {date:"2026-10-02", dow:"Fri", title:"Paprika chicken, rice, spinach and peppers",
+   plate:"280 g chicken from freezer, half-carb rice, sautéed spinach and pepper, chimichurri.",
+   src:"freezer", srcLabel:"Freezer", code:"chicken", protein:70,
+   recipes:["chicken","rice","spinachpep","chimi"]},
+  {date:"2026-10-03", dow:"Sat", title:"Sea bream or cod, potatoes, green beans",
+   plate:"320 g white fish, half-carb boiled potatoes, green beans, lemon and parsley.",
+   src:"fresh", srcLabel:"Fresh, 15 min", code:"white fish", protein:60,
+   recipes:["whitefish","greenbeans"],
+   tonight:"Shop for next week. The frozen beef portion is already done."}
+];
+
+const RECIPES = {
+  batch:{group:"Sunday batch cook", title:"Sunday batch cook plan", time:"About 90 min",
+    ingredients:[], ordered:true,
+    steps:[
+      "Oven to 200°C. Season the chicken and get it in (tray 1).",
+      "Chop and oil the roast veg, into the oven on tray 2.",
+      "Rinse and cook the rice and the quinoa on the hob.",
+      "Put 10 eggs on to boil, then into iced water.",
+      "Mix and shape the kofta, pan-fry in two batches.",
+      "Brown the beef mince in the same pan, then simmer with tomato.",
+      "Spread rice on a tray to cool fast. Box it within the hour.",
+      "Blitz the chimichurri and whisk the tahini-lemon.",
+      "Weigh and box: 2 × 280 g chicken dinners, 2 × 150 g Bridge chicken, kofta halves, 2 beef portions, rice portions.",
+      "Freezer: Thu kofta, Fri chicken, Thu and Fri rice, 1 beef portion (next week). Fridge: the rest. Label with the day."
+    ],
+    use:"Cooling fast matters in a Dubai kitchen. Shallow containers, lid on once steam stops, fridge within an hour."},
+  kofta:{group:"Batch recipes", title:"Lamb kofta", time:"25 min, 2 dinners",
+    ingredients:["800 g lean lamb mince","3 tbsp parsley, finely chopped","1 tbsp chives, snipped","Green tops of 2 spring onions, sliced","1½ tsp ground cumin","1 tsp smoked paprika","½ tsp chilli flakes","1 tsp salt, black pepper","1 tbsp garlic-infused oil for the pan"],
+    steps:["Mix everything except the oil by hand for a minute until sticky.","Shape into 12 fingers, about 65 g each.","Fry in the oil over medium-high heat, 10–12 min, turning, until 71°C inside.","Split into two portions of 6: one for Sunday, one to freeze."],
+    use:"Sun fresh, Thu from freezer. Log as dinner: beef/lamb."},
+  chicken:{group:"Batch recipes", title:"Paprika chicken thighs", time:"35 min, 2 dinners + 2 Bridges",
+    ingredients:["1.3 kg boneless chicken thighs","2 tbsp garlic-infused oil","2 tsp smoked paprika","1 tsp ground cumin","1 tsp dried oregano","Zest and juice of 1 lemon","1½ tsp salt"],
+    steps:["Toss the thighs with everything in the tray.","Spread flat, no overlap. Roast at 200°C for 25–30 min to 74°C inside.","Rest 5 min, then weigh out 2 × 280 g (dinners) and 2 × 150 g (Bridge)."],
+    use:"Mon from fridge, Fri from freezer. Bridge portions Mon–Tue. Log as dinner: chicken, Bridge: chicken."},
+  beef:{group:"Batch recipes", title:"Spiced beef mince", time:"25 min, 2 portions",
+    ingredients:["800 g lean beef mince (5%)","1 tbsp garlic-infused oil","Green tops of 3 spring onions","1½ tsp ground cumin","1 tsp smoked paprika","½ tsp dried oregano","½ can (200 g) chopped tomatoes","Salt and pepper"],
+    steps:["Brown the mince in the oil over high heat, 6–8 min, breaking it up.","Add spices and spring onion tops, stir 1 min.","Add the tomatoes and a splash of water, simmer 15 min until thick.","Split in two: one to fridge, one to freezer."],
+    use:"Tue from fridge. Second portion is next week's head start. Half a can keeps tomato inside the low-FODMAP serve."},
+  rice:{group:"Batch recipes", title:"Basmati rice", time:"20 min, 4 dinners",
+    ingredients:["300 g basmati rice","450 ml water","½ tsp salt"],
+    steps:["Rinse until the water runs clear.","Bring to the boil with water and salt, lid on, lowest heat 12 min, rest 5 min.","Spread on a tray to cool, box within an hour.","Half-carb portion ≈ 90 g cooked, full ≈ 180 g."],
+    use:"Sun and Mon from fridge. Thu and Fri go straight into the freezer. Reheat until steaming throughout."},
+  roastveg:{group:"Batch recipes", title:"Roast veg tray", time:"40 min, 3 dinners",
+    ingredients:["500 g carrots, batons","1 red pepper, strips","1 aubergine, cubes","2 small courgettes, half-moons","2 tbsp olive oil","1 tsp cumin, salt"],
+    steps:["Toss everything on a tray, one layer.","Roast at 200°C for 30–35 min, turning once."],
+    use:"Sun to Tue only. Keeps courgette at a low-FODMAP serve across 3 plates."},
+  tahini:{group:"Sauces", title:"Tahini-lemon", time:"5 min",
+    ingredients:["3 tbsp tahini","Juice of 1 lemon","3–4 tbsp cold water","Pinch of salt and cumin"],
+    steps:["Whisk tahini and lemon. It seizes, keep going.","Add water a spoon at a time until pourable."],
+    use:"1 tbsp per plate. Keeps 5 days in the fridge."},
+  chimi:{group:"Sauces", title:"Chimichurri", time:"5 min",
+    ingredients:["1 bunch parsley","2 tbsp chives","Green tops of 3 spring onions","4 tbsp olive oil","2 tbsp garlic-infused oil","2 tbsp red wine vinegar","½ tsp chilli flakes, ½ tsp oregano, salt"],
+    steps:["Chop everything fine, or pulse briefly.","Stir in the oils and vinegar, season."],
+    use:"Freeze half in an ice-cube tray for Friday so the herbs stay bright."},
+  eggs:{group:"Batch recipes", title:"Boiled eggs for the Bridge", time:"15 min",
+    ingredients:["10 eggs"],
+    steps:["Lower into boiling water, 9–10 min.","Straight into iced water, 5 min.","Store unpeeled."],
+    use:"Up to 7 days in the fridge. Pair with labneh for the eggs+labneh Bridge."},
+  quinoa:{group:"Batch recipes", title:"Quinoa", time:"20 min",
+    ingredients:["60 g quinoa","120 ml water, pinch of salt"],
+    steps:["Rinse well.","Simmer covered 15 min, rest 5 min, fluff."],
+    use:"Cook Sunday with the rice, eat Wednesday."},
+  salmon:{group:"Fresh nights", title:"Lemon salmon with quinoa", time:"15 min",
+    ingredients:["320 g salmon fillet","1 tsp garlic-infused oil, lemon, salt","Quinoa from Sunday","1 bag baby spinach (half)","1 cucumber, 2 tomatoes, olive oil, lemon"],
+    steps:["Oven to 200°C. Oil, salt and lemon on the salmon.","Roast 12–14 min until it just flakes.","Wilt a big handful of spinach in a hot pan, 1 min.","Chop cucumber and tomato, dress with oil and lemon.","Reheat the quinoa until steaming."],
+    use:"Log as dinner: salmon."},
+  whitefish:{group:"Fresh nights", title:"Pan-fried sea bream or cod", time:"25 min",
+    ingredients:["320 g sea bream or cod fillets","1 tbsp olive oil","250 g potatoes (half-carb)","Lemon, parsley, salt"],
+    steps:["Boil the potatoes in salted water, 15–18 min.","Pat the fish very dry, salt the skin.","Fry skin-side down 4 min without moving, flip for 1–2 min.","Finish with lemon and chopped parsley."],
+    use:"Log as dinner: white fish."},
+  potato:{group:"Quick sides", title:"Baked potato", time:"10 min microwave, 45 min oven",
+    ingredients:["1 medium potato, about 250 g"],
+    steps:["Prick all over.","Microwave 8–10 min, turning once, or bake at 200°C for 45 min.","Half-carb: eat half."],
+    use:"Tuesday."},
+  greenbeans:{group:"Quick sides", title:"Steamed green beans and carrots", time:"6 min",
+    ingredients:["150 g green beans per plate","1 carrot per plate (Thu)"],
+    steps:["Steam or boil 5–6 min until just tender.","Salt, a squeeze of lemon."],
+    use:"Tue, Thu, Sat."},
+  spinachpep:{group:"Quick sides", title:"Sautéed spinach and pepper", time:"6 min",
+    ingredients:["1 red pepper, strips","Half a bag of baby spinach","1 tsp garlic-infused oil"],
+    steps:["Fry the pepper in the oil 4 min.","Add spinach, toss until wilted.","Salt and pepper."],
+    use:"Friday."}
+};
+
+const SHOP = [
+  {title:"Protein", items:[
+    ["Boneless chicken thighs","1.3 kg"],["Lean lamb mince","800 g"],["Lean beef mince, 5%","800 g"],
+    ["Salmon fillet","~320 g"],["Sea bream or cod","~320 g"],["Eggs","20"]]},
+  {title:"Dairy and Bridge", items:[
+    ["Labneh","1 large tub"],["Skyr","7 pots"],["Parmesan","optional"]]},
+  {title:"Carbs", items:[
+    ["Basmati rice","500 g"],["Quinoa","small bag"],["Potatoes","1 kg"]]},
+  {title:"Veg and fruit", items:[
+    ["Carrots","1 kg"],["Green beans","500 g"],["Red peppers","3"],["Aubergine","1"],
+    ["Small courgettes","2"],["Baby spinach","2 bags"],["Cucumbers","2"],["Tomatoes","4"],
+    ["Spring onions","1 bunch"],["Parsley","2 bunches"],["Chives","1 pack"],["Lemons","5"],
+    ["Mandarins or kiwis","7"]]},
+  {title:"Pantry", sub:"Check the cupboard before buying.", items:[
+    ["Garlic-infused olive oil",""],["Olive oil",""],["Tahini",""],["Chopped tomatoes","1 can"],
+    ["Red wine vinegar",""],["Ground cumin",""],["Smoked paprika",""],["Chilli flakes",""],
+    ["Dried oregano",""],["Salt and pepper",""]]},
+  {title:"Kit", sub:"Only if you don't have it.", items:[
+    ["Glass containers","8–10"],["Freezer labels",""],["Kitchen scale",""]]}
+];
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const todayISO = (() => { const d = new Date(); return new Date(d.getTime() - d.getTimezoneOffset()*60000).toISOString().slice(0,10); })();
+
+/* Week */
+(function renderWeek(){
+  const first = DAYS[0].date, last = DAYS[DAYS.length-1].date;
+  const note = document.getElementById("weekNote");
+  if (todayISO < first) note.textContent = "Plan starts Sunday 27 Sep. Shop on Saturday, cook Sunday.";
+  else if (todayISO > last) note.textContent = "This week's plan has ended.";
+  else note.textContent = "Protein: dinner ≈ 60–70 g + Bridge ≈ 40 g. Add one skyr or whey extra daily to clear 120 g.";
+  document.getElementById("days").innerHTML = DAYS.map(d => {
+    const num = parseInt(d.date.slice(8),10);
+    const links = d.recipes.map(k => `<button type="button" data-recipe="${k}">${esc(RECIPES[k].title)}</button>`).join("");
+    const extra = [d.bridge ? `<div class="tonight">${esc(d.bridge)}</div>` : "",
+                   d.tonight ? `<div class="tonight"><strong>Tonight:</strong> ${esc(d.tonight)}</div>` : ""].join("");
+    return `<li class="day${d.date===todayISO?" today":""}">
+      <div class="date"><span class="dow">${d.dow}</span><span class="num">${num}</span></div>
+      <div class="card">
+        <h3>${esc(d.title)}</h3>
+        <div class="meta"><span class="pill ${d.src}">${esc(d.srcLabel)}</span>
+          <span class="pill plain">App: ${esc(d.code)}, ≈${d.protein} g</span></div>
+        <p class="plate">${esc(d.plate)}</p>
+        <div class="links">${links}</div>${extra}
+      </div></li>`;
+  }).join("");
+})();
+
+/* Recipes */
+(function renderRecipes(){
+  const groups = {};
+  Object.entries(RECIPES).forEach(([k,r]) => (groups[r.group] ||= []).push([k,r]));
+  document.getElementById("recipes").innerHTML = Object.entries(groups).map(([g,list]) =>
+    `<h2 class="group-title">${esc(g)}</h2>` + list.map(([k,r]) => `
+      <details class="recipe" id="r-${k}">
+        <summary><h3>${esc(r.title)}</h3><span>${esc(r.time)}</span></summary>
+        <div class="rbody">
+          ${r.ingredients.length ? `<h4>Ingredients</h4><ul>${r.ingredients.map(i=>`<li>${esc(i)}</li>`).join("")}</ul>` : ""}
+          <h4>${r.ordered ? "Order of work" : "Method"}</h4>
+          <ol>${r.steps.map(s=>`<li>${esc(s)}</li>`).join("")}</ol>
+          ${r.use ? `<div class="use">${esc(r.use)}</div>` : ""}
+        </div>
+      </details>`).join("")
+  ).join("");
+})();
+
+/* Shopping, ticks remembered on this device */
+const KEY = "mealplan-2026-09-27-ticks";
+let ticks = {};
+try { ticks = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch(e) { ticks = {}; }
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(ticks)); } catch(e) {} };
+function renderShop(){
+  let total = 0, done = 0;
+  document.getElementById("shop").innerHTML = SHOP.map((g,gi) => `
+    <div class="shop-group"><h2>${esc(g.title)}</h2>${g.sub?`<p class="sub">${esc(g.sub)}</p>`:""}
+      <ul class="items">${g.items.map(([name,qty],ii) => {
+        const id = `s${gi}-${ii}`; total++; if (ticks[id]) done++;
+        return `<li class="${ticks[id]?"done":""}"><label><input type="checkbox" data-id="${id}" ${ticks[id]?"checked":""}>
+          <span class="name">${esc(name)}</span><span class="qty">${esc(qty)}</span></label></li>`;
+      }).join("")}</ul></div>`).join("");
+  document.getElementById("progress").textContent = `${done} of ${total} ticked`;
+}
+renderShop();
+document.getElementById("shop").addEventListener("change", e => {
+  const id = e.target.dataset.id; if (!id) return;
+  if (e.target.checked) ticks[id] = 1; else delete ticks[id];
+  save(); renderShop();
+});
+document.getElementById("clearTicks").addEventListener("click", () => { ticks = {}; save(); renderShop(); });
+
+/* Tabs */
+const tabs = [...document.querySelectorAll('[role="tab"]')];
+function show(id){
+  tabs.forEach(t => { const on = t.id === id; t.setAttribute("aria-selected", on);
+    document.getElementById(t.getAttribute("aria-controls")).hidden = !on; });
+}
+tabs.forEach(t => t.addEventListener("click", () => { show(t.id); window.scrollTo(0,0); }));
+document.getElementById("days").addEventListener("click", e => {
+  const k = e.target.dataset.recipe; if (!k) return;
+  show("t-recipes");
+  const el = document.getElementById("r-" + k); el.open = true;
+  el.scrollIntoView({block:"start"});
+});
+
+/* Offline support */
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
+}
+</script>
+</body>
+</html>
